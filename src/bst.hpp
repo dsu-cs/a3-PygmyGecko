@@ -87,14 +87,52 @@ template<class T>
 template<class T>
 void BST<T>::insert(T new_data)
 {
+    Node<T> *node = new Node<T>(new_data);
+    Node<T> *cur;
 
+    if(root == NULL){
+        root = node;
+    } else {
+        cur = root;
+        while(cur != NULL){
+            if((*node).get_data() < (*cur).get_data()){
+                if((*cur).get_left() == NULL){
+                    (*cur).set_left(node);
+                    (*cur).set_left(NULL);
+                } else {
+                    (*cur).set_left((*cur).get_left());
+                }
+            } else {
+                if((*cur).get_right() == NULL){
+                   (*cur).set_right(node);
+                    (*cur).set_right(NULL);
+                } else {
+                    (*cur).set_right((*cur).get_right());
+                }
+            }
+        }
+    }
+
+    node_count++;
+    return;
 }
 
 
 template<class T>
 Node<T> *BST<T>::search(T val)
 {
+    Node<T> *cur = root;
 
+    while(cur != NULL){
+        if((*cur).get_data() == val){
+            return cur;
+        } else if(val < (*cur).get_data()){
+            cur = (*cur).get_left();
+        } else {
+            cur = (*cur).get_right();
+        }
+    }
+    return NULL;
 }
 
 
@@ -110,5 +148,5 @@ void BST<T>::remove(T val)
 template<class T>
 int BST<T>::get_size()
 {
-
+    return node_count;
 }
